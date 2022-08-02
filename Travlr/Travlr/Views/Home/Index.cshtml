@@ -1,0 +1,166 @@
+﻿<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <script>
+        $(document).ready(function () {
+            //var availableTags = [
+            //    "Javascript",
+            //    "Asp",
+            //    "C#"
+            //];
+
+
+            //$("#txtSearch").autocomplete({
+            //    source: availableTags
+            //});
+
+
+        });
+
+        function searchProducts() {
+            if ($("#dtBookDate").val() != '') {
+                var productID = $("#ProductList").val();
+                var isDiscount = $('#chkDiscount').is(':checked');
+                $.post("@(Url.Action("GetPrice", "Product"))", { productID: productID, isDiscount: isDiscount },
+                    function (price) {
+                        if (price != 0) {
+                            $("#lblPrice").html('price : ' + price);
+                        }
+                        else {
+                            $("#lblPrice").html('');
+                        }
+                    });
+            }
+            else {
+                alert('please fill the date');  
+            }
+        }
+    </script>
+
+
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-4 detailCenter">
+            <table>
+                <tr>
+                    <td><label>Name : </label></td>
+                    <td style="padding-left:10px;"><input type="text" id="txtUser" name="txtUser" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top:10px;">
+                        <table>
+                            <tr>
+                                <td class="form-group">
+                                    @*<input id="txtSearch" name="txtSearch" type="search" style="width:600px;  " placeholder="Search.." />*@
+                                    @Html.DropDownList("ProductList", null, new { style = "width: 200px;" })
+                                </td>
+                                <td style="padding-left:10px;">
+                                    <button type="submit" onclick="searchProducts()"><i class="fa fa-search"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top:10px;">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label style="font-size: 11px;">Discount 50% : </label>
+                                </td>
+                                <td style="padding-left:10px;">
+                                    <input id="chkDiscount" name="chkDiscount" type="checkbox" />
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top:10px;">
+                        <table>
+                            <tr>
+                                <td>
+                                    <input id="dtBookDate" name="dtBookDate" type="date" style="width:105px;" />
+                                </td>
+                                <td style="padding-left:10px;">
+                                    <label id="lblPrice"></label>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+<style>
+    .detailCenter {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        padding-top: 50px;
+    }
+
+    .search-container {
+        float: right;
+    }
+
+        .search-container button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            background: #ddd;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+        }
+
+    .search-input {
+        width: 100%;
+        border-radius: 5px;
+        box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.12);
+    }
+
+        .search-input input {
+            height: 55px;
+            width: 100%;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            padding: 0 60px 0 20px;
+            font-size: 18px;
+        }
+
+        .search-input .icon {
+            height: 55px;
+            width: 55px;
+            line-height: 55px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .search-input .autocom-box {
+            padding: 10px 8px;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+</style>
